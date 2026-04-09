@@ -680,11 +680,11 @@ body{font-family:'EB Garamond',serif;cursor:none;}
   <div class="s4-counter-wrap">
     <p class="s4-counter-label">llevamos juntos</p>
     <div class="s4-counter-nums">
-      <div class="s4-cnt"><div class="s4-cnt-num" id="cYears">0</div><div class="s4-cnt-lbl">años</div></div>
+      <div class="s4-cnt"><div class="s4-cnt-num" id="cHours">0</div><div class="s4-cnt-lbl">horas</div></div>
       <div class="s4-sep">·</div>
-      <div class="s4-cnt"><div class="s4-cnt-num" id="cMonths">0</div><div class="s4-cnt-lbl">meses</div></div>
+      <div class="s4-cnt"><div class="s4-cnt-num" id="cMinutes">00</div><div class="s4-cnt-lbl">minutos</div></div>
       <div class="s4-sep">·</div>
-      <div class="s4-cnt"><div class="s4-cnt-num" id="cDays">0</div><div class="s4-cnt-lbl">días</div></div>
+      <div class="s4-cnt"><div class="s4-cnt-num" id="cSeconds">00</div><div class="s4-cnt-lbl">segundos</div></div>
     </div>
     <p class="s4-counter-since">desde el 3 de abril de 2026</p>
   </div>
@@ -824,45 +824,65 @@ function resetSlideAnims(n){
 /* ═══════════════════════════════════════
    TYPEWRITER
 ═══════════════════════════════════════ */
-const MSG="Eres lo mejor que me ha podido pasar en mi vida. Desde que te conocí, te juro que soy más feliz. Cada vez que veo tu cara, sonrío. Cada vez que escucho tu voz, sonrío. Cada vez que pienso en ti, sonrío. Eres como mi alma gemela, tienes ese ser tan similar al mío, que lo único que haces es enamorarme más y más cada día. Si la reencarnación existe, lo único que pido es volverte a conocer. Eres mi mundo, mi niña hermosa.";
+const MSG="Eres lo mejor que me ha podido pasar en la vida. No lo digo como frase bonita — lo digo porque desde que llegaste, todo tiene más sentido. Me desperté un día y de repente el mundo tenía un color que no tenía antes, y ese color eras tú.\n\nCada vez que veo tu cara, sonrío sin querer. Cada vez que escucho tu voz, se me olvida lo que estaba pensando. Cada vez que me escribes, el celular se siente diferente en la mano. Es ridículo, lo sé. Pero es verdad.\n\nTienes algo que no sé explicar: ese ser tan tuyo, tan similar al mío, que cada conversación contigo me parece corta aunque dure horas. Me enamoras cuando hablas de lo que te gusta, cuando te ríes de algo sin filtro, cuando eres tú sin más.\n\nSi la reencarnación existe, no le pido al universo riqueza ni suerte. Solo te pido a ti. Volverte a encontrar, volver a reconocerte entre toda la gente, volver a caer.\n\nEres mi mundo, mi niña hermosa. Y hoy, y mañana, y todos los días después — te voy a amar.";
 let twDone=false;
 
 function startTypewriter(){
   if(twDone)return;
   const el=document.getElementById('typewriter');
-  el.innerHTML='<span class="tw-cursor">|</span>';
-  let i=0;
+  el.innerHTML='';
   const btn=document.getElementById('btnSlide3');
+  // split into paragraphs
+  const paragraphs=MSG.split('\n\n');
+  let pIdx=0,cIdx=0;
+  let currentP=null;
+
+  function nextPara(){
+    currentP=document.createElement('p');
+    currentP.style.cssText='margin-bottom:1.1em;';
+    el.appendChild(currentP);
+  }
+  nextPara();
 
   function type(){
-    if(i<MSG.length){
-      const char=MSG[i++];
-      el.innerHTML=MSG.slice(0,i)+'<span class="tw-cursor">|</span>';
-      const delay=char==='.'?380:char===','?200:char===' '?55:30+Math.random()*20;
+    const para=paragraphs[pIdx];
+    if(cIdx<para.length){
+      const ch=para[cIdx++];
+      currentP.innerHTML=para.slice(0,cIdx)+'<span class="tw-cursor">|</span>';
+      const delay=ch==='.'?360:ch===','?180:ch===' '?50:28+Math.random()*18;
       setTimeout(type,delay);
     } else {
-      el.innerHTML=MSG;
-      twDone=true;
-      btn.style.display='block';
+      currentP.innerHTML=para; // clean, no cursor
+      pIdx++;cIdx=0;
+      if(pIdx<paragraphs.length){
+        setTimeout(()=>{nextPara();type();},400);
+      } else {
+        twDone=true;
+        btn.style.display='block';
+      }
     }
   }
   setTimeout(type,600);
 }
 
 /* ═══════════════════════════════════════
-   COUNTER
+   COUNTER — horas · minutos · segundos
 ═══════════════════════════════════════ */
+let counterInterval=null;
 function updateCounter(){
-  const start=new Date('2026-04-03T00:00:00');
-  const now=new Date();
-  let y=now.getFullYear()-start.getFullYear();
-  let m=now.getMonth()-start.getMonth();
-  let d=now.getDate()-start.getDate();
-  if(d<0){m--;const prev=new Date(now.getFullYear(),now.getMonth(),0);d+=prev.getDate();}
-  if(m<0){y--;m+=12;}
-  document.getElementById('cYears').textContent=y;
-  document.getElementById('cMonths').textContent=m;
-  document.getElementById('cDays').textContent=d;
+  if(counterInterval) return; // ya corriendo
+  function tick(){
+    const start=new Date('2026-04-03T00:00:00');
+    const diff=Math.max(0,Math.floor((new Date()-start)/1000));
+    const h=Math.floor(diff/3600);
+    const m=Math.floor((diff%3600)/60);
+    const s=diff%60;
+    document.getElementById('cHours').textContent=h.toLocaleString();
+    document.getElementById('cMinutes').textContent=String(m).padStart(2,'0');
+    document.getElementById('cSeconds').textContent=String(s).padStart(2,'0');
+  }
+  tick();
+  counterInterval=setInterval(tick,1000);
 }
 
 /* ═══════════════════════════════════════
@@ -912,7 +932,7 @@ function updateCounter(){
 })();
 
 /* ═══════════════════════════════════════
-   AUDIO PLAYER
+   AUDIO PLAYER — autoplay agresivo
 ═══════════════════════════════════════ */
 (function(){
   const audio=document.getElementById('bgAudio');
@@ -921,10 +941,23 @@ function updateCounter(){
   const wrap=document.getElementById('apProgressWrap');
   const player=document.getElementById('audioPlayer');
 
-  // Show player after 1s
   setTimeout(()=>player.classList.add('visible'),1000);
 
-  btn.addEventListener('click',()=>{
+  function tryPlay(){
+    audio.volume=0.85;
+    audio.play().then(()=>{btn.textContent='❚❚';}).catch(()=>{});
+  }
+
+  // Intento 1: directo al cargar
+  window.addEventListener('load',()=>tryPlay());
+
+  // Intento 2: primer toque/click (fallback para políticas del navegador)
+  const unlock=()=>{tryPlay();document.removeEventListener('touchstart',unlock);document.removeEventListener('click',unlock);};
+  document.addEventListener('touchstart',unlock,{once:true});
+  document.addEventListener('click',unlock,{once:true});
+
+  btn.addEventListener('click',e=>{
+    e.stopPropagation();
     if(audio.paused){audio.play();btn.textContent='❚❚';}
     else{audio.pause();btn.textContent='▶';}
   });
@@ -935,14 +968,8 @@ function updateCounter(){
 
   wrap.addEventListener('click',e=>{
     const rect=wrap.getBoundingClientRect();
-    const pct=(e.clientX-rect.left)/rect.width;
-    audio.currentTime=pct*audio.duration;
+    audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration;
   });
-
-  // Autoplay attempt
-  document.addEventListener('click',()=>{
-    if(audio.paused){audio.play().then(()=>{btn.textContent='❚❚';}).catch(()=>{});}
-  },{once:true});
 })();
 </script>
 </body>
