@@ -1,0 +1,356 @@
+/* ── RESET & BASE ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:       #080810;
+  --bg2:      #0d0d1a;
+  --surface:  rgba(255,255,255,0.04);
+  --border:   rgba(255,255,255,0.07);
+  --accent:   #c8a4c8;
+  --accent2:  #e8c4e8;
+  --text:     #e8e0f0;
+  --muted:    rgba(232,224,240,0.45);
+  --glow:     rgba(200,164,200,0.18);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── PARTÍCULAS ── */
+#particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.parallax-bg {
+  position: absolute;
+  inset: -10%;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(180,120,200,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(120,100,180,0.10) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(200,140,160,0.08) 0%, transparent 50%);
+  transition: transform 0.05s linear;
+}
+
+/* Si hay fotos en assets/fotos, el JS las pone como background */
+.parallax-bg.has-photo {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.35) saturate(0.8);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,16,0.3) 0%,
+    rgba(8,8,16,0.1) 40%,
+    rgba(8,8,16,0.7) 100%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  transition: transform 0.05s linear;
+}
+
+.subtitle-top {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 200;
+  font-size: clamp(0.75rem, 2vw, 0.95rem);
+  letter-spacing: 0.4em;
+  color: var(--accent);
+  text-transform: lowercase;
+  margin-bottom: 1.2rem;
+  opacity: 0;
+  animation: fadeUp 1.2s ease 0.3s forwards;
+}
+
+.title-main {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(5rem, 18vw, 13rem);
+  letter-spacing: 0.15em;
+  line-height: 1;
+  color: var(--text);
+  text-shadow:
+    0 0 80px rgba(200,164,200,0.25),
+    0 0 160px rgba(200,164,200,0.10);
+  opacity: 0;
+  animation: fadeUp 1.4s ease 0.6s forwards;
+}
+
+.heart-divider {
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin-top: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 1s forwards, pulse 2.5s ease 2s infinite;
+}
+
+/* ── SECCIONES GENERALES ── */
+section { position: relative; z-index: 1; }
+
+/* ── MENSAJE ── */
+.message-section {
+  padding: clamp(4rem, 10vh, 8rem) 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.message-card {
+  max-width: 680px;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 60px var(--glow), 0 4px 40px rgba(0,0,0,0.4);
+}
+
+.typewriter-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.8vw, 1.45rem);
+  line-height: 1.9;
+  color: var(--text);
+  min-height: 3em;
+}
+
+.cursor {
+  display: inline-block;
+  color: var(--accent);
+  font-weight: 300;
+  animation: blink 0.9s step-end infinite;
+  margin-left: 2px;
+}
+
+/* ── CONTADOR ── */
+.counter-section {
+  padding: clamp(3rem, 8vh, 6rem) 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.counter-card {
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.counter-label {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 200;
+  font-size: 0.8rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.counter-numbers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.counter-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cnt-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  color: var(--accent2);
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(200,164,200,0.3);
+}
+
+.cnt-lbl {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 200;
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.counter-sep {
+  font-size: 2rem;
+  color: var(--border);
+  align-self: flex-start;
+  padding-top: 0.8rem;
+}
+
+.counter-since {
+  margin-top: 1.8rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  font-weight: 200;
+}
+
+/* ── REPRODUCTOR ── */
+.player-section {
+  padding: clamp(2rem, 6vh, 5rem) 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.player-card {
+  max-width: 560px;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.8rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 60px var(--glow), 0 4px 40px rgba(0,0,0,0.4);
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.player-song-art {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(200,164,200,0.3), rgba(120,100,180,0.3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.player-title {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.player-artist {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 200;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+  letter-spacing: 0.08em;
+}
+
+.yt-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 16/9;
+}
+
+.yt-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── CONFETI ── */
+.confetti-section {
+  padding: clamp(3rem, 8vh, 6rem) 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+#confettiCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.confetti-btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent2);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(200,164,200,0.1);
+}
+
+.confetti-btn:hover, .confetti-btn:active {
+  background: rgba(200,164,200,0.08);
+  box-shadow: 0 0 40px rgba(200,164,200,0.25);
+  transform: scale(1.03);
+}
+
+/* ── FOOTER ── */
+.site-footer {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ── ANIMACIONES ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.2); opacity: 0.7; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}

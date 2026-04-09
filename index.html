@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Ámbar 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- PARTÍCULAS DE FONDO -->
+  <canvas id="particles"></canvas>
+
+  <!-- PARALLAX HERO -->
+  <section class="hero" id="hero">
+    <div class="parallax-bg" id="parallaxBg"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content" id="heroContent">
+      <p class="subtitle-top">— para ti —</p>
+      <h1 class="title-main">TE AMO</h1>
+      <div class="heart-divider">♡</div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN MENSAJE -->
+  <section class="message-section">
+    <div class="message-card">
+      <div class="typewriter-container">
+        <p id="typewriter" class="typewriter-text"></p>
+        <span class="cursor">|</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN CONTADOR -->
+  <section class="counter-section">
+    <div class="counter-card">
+      <p class="counter-label">llevamos juntos</p>
+      <div class="counter-numbers">
+        <div class="counter-unit">
+          <span id="cnt-years" class="cnt-num">0</span>
+          <span class="cnt-lbl">años</span>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <span id="cnt-months" class="cnt-num">0</span>
+          <span class="cnt-lbl">meses</span>
+        </div>
+        <div class="counter-sep">·</div>
+        <div class="counter-unit">
+          <span id="cnt-days" class="cnt-num">0</span>
+          <span class="cnt-lbl">días</span>
+        </div>
+      </div>
+      <p class="counter-since">desde el 3 de abril de 2026</p>
+    </div>
+  </section>
+
+  <!-- REPRODUCTOR YOUTUBE EMBED -->
+  <section class="player-section">
+    <div class="player-card">
+      <div class="player-info">
+        <div class="player-song-art">♪</div>
+        <div class="player-meta">
+          <p class="player-title">XO (Only If You Say Yes)</p>
+          <p class="player-artist">ENHYPEN</p>
+        </div>
+      </div>
+      <div class="yt-wrapper">
+        <iframe
+          id="ytPlayer"
+          src="https://www.youtube.com/embed/L5JEFPxDTGk?autoplay=1&loop=1&playlist=L5JEFPxDTGk&controls=1&rel=0&modestbranding=1"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          frameborder="0">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFETI BUTTON -->
+  <section class="confetti-section">
+    <button class="confetti-btn" id="confettiBtn">
+      <span>💖 presiona si me amas</span>
+    </button>
+    <canvas id="confettiCanvas"></canvas>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>hecho con todo mi amor · para mi Ámbar ♡</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
